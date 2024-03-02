@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Home - Skystore
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for product in products %}
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="card-text">{{ product.price }}₽</p>
+                <a href="#" class="btn btn-primary">Купить</a>
+                <img src="{% static 'Mandarin.jpg' %}" alt="Mandarin">
+                <img src="{% static 'Orange.jpg' %}" alt="Orange">
+
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

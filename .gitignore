@@ -1,0 +1,10 @@
+env/
+
+.vscode/
+.idea/
+*.swp
+
+*.log
+*.tmp
+
+__pycache__/
