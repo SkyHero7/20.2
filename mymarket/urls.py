@@ -1,10 +1,10 @@
-from . import views
 from django.urls import path
-from .views import BlogPostListView, BlogPostDetailView, BlogPostCreateView, BlogPostUpdateView, BlogPostDeleteView, ContactView
+from . import views
+from .views import product_detail, BlogPostListView, BlogPostDetailView, BlogPostCreateView, BlogPostUpdateView, BlogPostDeleteView, ContactView
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('product/<int:pk>/', views.product_detail, name='product_detail'),
+    path('product/<int:pk>/', product_detail, name='product_detail'),
     path('posts/', BlogPostListView.as_view(), name='blogpost_list'),
     path('posts/<int:pk>/', BlogPostDetailView.as_view(), name='blogpost_detail'),
     path('posts/create/', BlogPostCreateView.as_view(), name='blogpost_create'),

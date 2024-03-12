@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список блоговых записей</title>
+</head>
+<body>
+    <h1>Список блоговых записей</h1>
+    <ul>
+        {% for post in object_list %}
+            <li><a href="{% url 'blogpost_detail' post.pk %}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

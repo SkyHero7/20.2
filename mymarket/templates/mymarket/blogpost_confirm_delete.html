@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение удаления блоговой записи</title>
+</head>
+<body>
+    <h1>Вы уверены, что хотите удалить запись "{{ object.title }}"?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, удалить</button>
+    </form>
+</body>
+</html>

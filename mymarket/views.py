@@ -4,11 +4,12 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse
 from django.utils.text import slugify
 from .models import BlogPost
+from django.urls import reverse_lazy
 
 def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
     context = {'product': product}
-    return render(request, 'product_detail.html', context)
+    return render(request, 'product_detail.html', {'product': product})
 
 
 def index(request):
@@ -41,6 +42,7 @@ class BlogPostCreateView(CreateView):
     model = BlogPost
     template_name = 'blogpost_form.html'
     fields = ['title', 'content']
+    success_url = reverse_lazy('blogpost_list')
 
     def form_valid(self, form):
         new_blog = form.save(commit=False)
