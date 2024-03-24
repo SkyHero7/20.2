@@ -1,63 +1,72 @@
-from django.shortcuts import render
-from .models import Product
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from django.urls import reverse
-from django.utils.text import slugify
-from .models import BlogPost
 from django.urls import reverse_lazy
-
-def product_detail(request, pk):
-    product = Product.objects.get(pk=pk)
-    context = {'product': product}
-    return render(request, 'product_detail.html', {'product': product})
-
-
-def index(request):
-    products = Product.objects.all()
-
-    context = {'products': products}
-
-    return render(request, 'index.html', context)
-
-
-class ContactView(TemplateView):
-    template_name = 'contacts.html'
+from .models import Product
+from .forms import ProductForm
+from django.views.generic import ListView
+from .models import BlogPost
 
 class BlogPostListView(ListView):
     model = BlogPost
     template_name = 'blogpost_list.html'
 
-class BlogPostDetailView(DetailView):
-    model = BlogPost
-    template_name = 'blogpost_detail.html'
-    queryset = BlogPost.objects.filter(is_published=True)
+class ProductListView(ListView):
+    model = Product
+    template_name = 'product_list.html'
 
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        obj.views_count += 1
-        obj.save()
-        return obj
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product_detail.html'
 
-class BlogPostCreateView(CreateView):
-    model = BlogPost
-    template_name = 'blogpost_form.html'
-    fields = ['title', 'content']
-    success_url = reverse_lazy('blogpost_list')
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product_form.html'
+    success_url = reverse_lazy('product_list')
 
-    def form_valid(self, form):
-        new_blog = form.save(commit=False)
-        new_blog.slug = slugify(new_blog.title)
-        new_blog.save()
-        return super().form_valid(form)
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product_form.html'
+    success_url = reverse_lazy('product_list')
 
-class BlogPostUpdateView(UpdateView):
-    model = BlogPost
-    template_name = 'blogpost_form.html'
-    fields = ['title', 'content']
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'product_confirm_delete.html'
+    success_url = reverse_lazy('product_list')
 
-    def get_success_url(self):
-        return reverse('blogpost_detail', args=(self.object.pk,))
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'product_list.html', {'products': products})
 
-class BlogPostDeleteView(DeleteView):
-    model = BlogPost
-    template_name = 'blogpost_confirm_delete.html'
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'product_detail.html', {'product': product})
+
+def product_create(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')
+    else:
+        form = ProductForm()
+    return render(request, 'product_form.html', {'form': form})
+
+def product_update(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'product_form.html', {'form': form})
+
+def product_delete(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('product_list')
+    return render(request, 'product_confirm_delete.html', {'product': product})
