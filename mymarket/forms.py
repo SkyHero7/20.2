@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Version
 from django.core.exceptions import ValidationError
 
 class ProductForm(forms.ModelForm):
@@ -23,3 +23,7 @@ class ProductForm(forms.ModelForm):
                 raise ValidationError(f"Описание содержит запрещенное слово: {word}")
         return description
 
+class VersionForm(forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = ['version_number', 'version_name', 'is_current']

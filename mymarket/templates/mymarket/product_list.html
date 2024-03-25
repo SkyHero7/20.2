@@ -1,16 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
-</head>
-<body>
-    <h1>Product List</h1>
-    <ul>
-        {% for product in products %}
-            <li><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Product List</h1>
+  <ul>
+    {% for product in products %}
+      <li>
+        <strong>{{ product.name }}</strong><br>
+        Description: {{ product.description }}<br>
+        Price: ${{ product.price }}<br>
+        {% if product.active_version %}
+          Active Version: {{ product.active_version.version_number }} - {{ product.active_version.version_name }}<br>
+        {% else %}
+          No active version<br>
+        {% endif %}
+        <a href="{% url 'product_detail' product.pk %}">View details</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
