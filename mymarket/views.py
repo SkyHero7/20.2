@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
-from .models import Product
-from .forms import ProductForm
+from .models import Product, Version
+from .forms import ProductForm, VersionForm
 from django.views.generic import ListView
 from .models import BlogPost
 
@@ -70,3 +70,27 @@ def product_delete(request, pk):
         product.delete()
         return redirect('product_list')
     return render(request, 'product_confirm_delete.html', {'product': product})
+class VersionCreateView(CreateView):
+    model = Version
+    form_class = VersionForm
+    template_name = 'version_create.html'
+    success_url = reverse_lazy('version_list')
+
+class VersionUpdateView(UpdateView):
+    model = Version
+    form_class = VersionForm
+    template_name = 'version_update.html'
+    success_url = reverse_lazy('version_list')
+
+class VersionDeleteView(DeleteView):
+    model = Version
+    template_name = 'version_confirm_delete.html'
+    success_url = reverse_lazy('version_list')
+
+class VersionListView(ListView):
+    model = Version
+    template_name = 'version_list.html'
+
+class VersionDetailView(DetailView):
+    model = Version
+    template_name = 'version_detail.html'
