@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Version Detail</h1>
+  <p>Version Number: {{ object.version_number }}</p>
+  <p>Version Name: {{ object.version_name }}</p>
+  <p>Is Current: {{ object.is_current }}</p>
+{% endblock %}
