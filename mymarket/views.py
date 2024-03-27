@@ -6,6 +6,7 @@ from .forms import ProductForm, VersionForm
 from django.views.generic import ListView
 from .models import BlogPost
 
+
 class BlogPostListView(ListView):
     model = BlogPost
     template_name = 'blogpost_list.html'
@@ -44,14 +45,8 @@ def product_detail(request, pk):
     return render(request, 'product_detail.html', {'product': product})
 
 def product_create(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('product_list')
-    else:
-        form = ProductForm()
-    return render(request, 'product_form.html', {'form': form})
+    form = ProductForm()
+    return render(request, 'product_form.html', {'form': form, 'form_show_errors': True})
 
 def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)

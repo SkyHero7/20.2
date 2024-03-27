@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if form_show_errors %}
+        <div class="alert alert-danger">
+            {% if form_show_errors == 'text' %}
+                {{ form_errors|striptags }}
+            {% else %}
+                {{ form_errors }}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if form.helper %}
+        {{ form.helper.form_tag }}
+    {% else %}
+        <form {{ form_attrs }}>
+    {% endif %}
+        {% crispy form %}
+    {% if form.helper %}
+        {{ form.helper.form_tag|safe }}
+    {% else %}
+        </form>
+    {% endif %}
+{% endblock %}
