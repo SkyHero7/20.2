@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mymarket',
     'crispy_forms',
+    'crispy_bootstrap4'
 
 ]
 
