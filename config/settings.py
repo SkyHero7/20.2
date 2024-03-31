@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mymarket',
     'crispy_forms',
-    'crispy_bootstrap4'
+    'crispy_bootstrap4',
+    'users',
+
+
 
 ]
 
@@ -61,7 +64,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'mymarket', 'templates', 'mymarket'),
-        ],
+         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

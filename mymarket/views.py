@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from .models import Product, Version
@@ -19,11 +20,15 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_form.html'
-    success_url = reverse_lazy('product_list')
+    template_name = 'product_create.html'
+    success_url = '/mymarket/'
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 class ProductUpdateView(UpdateView):
     model = Product
