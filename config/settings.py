@@ -64,6 +64,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'mymarket', 'templates', 'mymarket'),
+            os.path.join(BASE_DIR, 'users', 'registration'),
          ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -76,7 +77,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
