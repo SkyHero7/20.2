@@ -6,16 +6,11 @@ from .models import CustomUser
 User = get_user_model()
 
 class UserRegistrationForm(UserCreationForm):
-    email = forms.EmailField()
 
     class Meta:
-        model = User
-        fields = ['email', 'password1', 'password2']
-
-class CustomUserCreationForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = ['email', 'password1', 'password2']
+
 
 class VerificationForm(forms.Form):
     email = forms.EmailField()

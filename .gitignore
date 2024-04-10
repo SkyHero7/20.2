@@ -1,4 +1,4 @@
-env/
+myenv/
 
 .vscode/
 .idea/
@@ -8,3 +8,5 @@ env/
 *.tmp
 
 __pycache__/
+/myenv/
+
