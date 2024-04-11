@@ -129,7 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFFILES_DIRS = (
     BASE_DIR / 'static'
@@ -155,3 +155,5 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'fuckup@oscarbot.ru'
 EMAIL_HOST_PASSWORD = 'AsTSNVv7pun9'
 EMAIL_USE_SSL = True
+
+LOGIN_REDIRECT_URL = '/profile/'
