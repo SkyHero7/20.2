@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from django.contrib.auth import get_user_model
 
 def main():
     """Run administrative tasks."""
@@ -20,3 +20,9 @@ def main():
 
 if __name__ == '__main__':
     main()
+    User = get_user_model()
+    if not User.objects.filter(email='admin@example.com').exists():
+        user = User.objects.create_superuser(email='admin@example.com', password='admin')
+        user.is_staff = True
+        user.save()
+

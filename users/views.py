@@ -8,8 +8,11 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from .models import Product
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import Http404
+
 
 class UserRegistrationView(CreateView):
     model = CustomUser
@@ -71,3 +74,17 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 def profile(request):
     user = request.user
     return render(request, 'users/profile.html', {'user': user})
+
+
+class ProductUpdateView(PermissionRequiredMixin, UpdateView):
+    model = Product
+    fields = ['name', 'description', 'price']
+    template_name = 'product_update.html'
+    permission_required = 'mymarket.change_product'
+
+    def has_object_permission(self, request, obj):
+        # Проверка на владельца продукта
+        if obj.owner == request.user:
+            return True
+        else:
+            raise Http404("You are not the owner of this product.")
