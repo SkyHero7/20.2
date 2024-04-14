@@ -9,9 +9,12 @@ from django.shortcuts import render
 from .models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
-from .models import Product
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import Http404
+from django.views.generic import DetailView
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from mymarket.models import Product
 
 
 class UserRegistrationView(CreateView):
@@ -88,3 +91,11 @@ class ProductUpdateView(PermissionRequiredMixin, UpdateView):
             return True
         else:
             raise Http404("You are not the owner of this product.")
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product_detail.html'
+
+    @method_decorator(cache_page(60 * 15))  # Кеширование на 15 минут
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
