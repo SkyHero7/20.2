@@ -15,7 +15,7 @@ from django.views.generic import DetailView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from mymarket.models import Product
-
+from .services import get_all_categories
 
 class UserRegistrationView(CreateView):
     model = CustomUser
@@ -99,3 +99,6 @@ class ProductDetailView(DetailView):
     @method_decorator(cache_page(60 * 15))  # Кеширование на 15 минут
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+
+def some_view(request):
+    categories = get_all_categories()
